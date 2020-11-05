@@ -14,6 +14,5 @@ class DateCreatedUpdatedTimeMixin(models.Model):
 
 class UserCreatedUpdateMixing(models.Model):
 
-    
     class Meta:
         abstract = True

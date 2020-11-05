@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from core.models import DateCreatedUpdatedTimeMixin
+from bakery.managers import ProductManager
 # Create your models here.
 
 
@@ -24,12 +25,14 @@ class Ingredient(DateCreatedUpdatedTimeMixin):
 
 class Product(DateCreatedUpdatedTimeMixin):
     name = models.CharField(max_length=255, null=False, blank=False)
+    description = models.TextField()
     bakery = models.ForeignKey(Bakery, on_delete=models.CASCADE)
     is_vegetarian = models.BooleanField(default=False)
     # image = models.ImageField(upload_to="")
     cost = models.PositiveIntegerField()
     selling_price = models.PositiveIntegerField()
     is_active = models.BooleanField(default=True)
+    objects = ProductManager()
 
     class Meta:
         unique_together = ("name", "bakery")

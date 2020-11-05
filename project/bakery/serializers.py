@@ -9,6 +9,12 @@ class BakerySerializer(serializers.ModelSerializer):
 
 
 class ProductSerializer(serializers.Serializer):
+    class Meta:
+        model = Product
+
+
+class CustomerProductListSerializer(serializers.Serializer):
 
     class Meta:
         model = Product
+        exclude = ("cost", "is_active")

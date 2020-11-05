@@ -17,3 +17,14 @@ class UserProfile(DateCreatedUpdatedTimeMixin):
     )
     phone = models.CharField(max_length=10, null=False, blank=False)
     is_verified = models.BooleanField(default=False)
+
+
+class UserProxy(User):
+    class Meta:
+        proxy = True
+
+    def is_customer(self) -> bool:
+        return self.userprofile.user_type == UserType.CUSTOMER
+
+    def is_vendor(self) -> bool:
+        return self.userprofile.user_type == UserType.VENDOR
