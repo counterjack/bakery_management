@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     "rest_framework",
     "bakery",
     "user",
-    "django_extensions"
+    "django_extensions",
+    "drf_yasg"
 ]
 
 MIDDLEWARE = [
@@ -122,3 +123,4 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+REST_FRAMEWORK = { 'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema' }

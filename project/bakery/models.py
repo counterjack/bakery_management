@@ -14,14 +14,32 @@ class Bakery(DateCreatedUpdatedTimeMixin):
     class Meta:
         ordering = ("-created",)
 
+    def __str__(self):
+        return f"Bakery \"{self.name}\" owned by {self.owner.get_full_name()}"
+
+    @property
+    def products(self):
+        return Product.objects.select_related("bakery").filter(bakery_id=self.id)
+
+    @property
+    def ingredients(self):
+        return Ingredient.objects.select_related("bakery").filter(bakery_id=self.id)
+
 
 class Ingredient(DateCreatedUpdatedTimeMixin):
+    bakery = models.ForeignKey(Bakery, on_delete=models.CASCADE, related_name="ingredient")
     name = models.CharField(max_length=255, null=False, blank=False, unique=True)
+    description = models.TextField()
+
+    class Meta:
+        unique_together = ("bakery", "name")
 
     @staticmethod
     def is_ingredient_exists(name: str) -> bool:
         return Ingredient.objects.filter(name__iexact=name).exists()
 
+    def __str__(self):
+        return f"Ingredient {self.name} listed by {self.bakery}"
 
 class Product(DateCreatedUpdatedTimeMixin):
     name = models.CharField(max_length=255, null=False, blank=False)
@@ -37,6 +55,14 @@ class Product(DateCreatedUpdatedTimeMixin):
     class Meta:
         unique_together = ("name", "bakery")
 
+    @property
+    def ingredients(self):
+        return ProductIngredient.objects.select_related("product", "ingredient").filter(
+            product_id=self.id).values(
+                "ingredient__name","ingredient__description", "percentage", "quantity")
+
+    def __str__(self):
+        return f"Product {self.name} listed by {self.bakery.name}"
 
 class ProductIngredient(DateCreatedUpdatedTimeMixin):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)

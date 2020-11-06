@@ -19,4 +19,4 @@ class ProductIngredientAdmin(admin.ModelAdmin):
 
 @admin.register(Ingredient)
 class ProductIngredientAdmin(admin.ModelAdmin):
-    list_display = ("name", "created")
+    list_display = ("name", "created", "bakery")

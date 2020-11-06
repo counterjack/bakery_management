@@ -8,7 +8,7 @@ class UserType(models.TextChoices):
     VENDOR = _("VENDOR")
 
 class UserProfile(DateCreatedUpdatedTimeMixin):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="userprofile")
     user_type = models.CharField(
         choices=UserType.choices,
         default=UserType.CUSTOMER,
@@ -24,7 +24,13 @@ class UserProxy(User):
         proxy = True
 
     def is_customer(self) -> bool:
-        return self.userprofile.user_type == UserType.CUSTOMER
+        try:
+            return self.userprofile.user_type == UserType.CUSTOMER
+        except UserProfile.DoesNotExist:
+            return False
 
     def is_vendor(self) -> bool:
-        return self.userprofile.user_type == UserType.VENDOR
+        try:
+            return self.userprofile.user_type == UserType.VENDOR
+        except UserProfile.DoesNotExist:
+            return False
