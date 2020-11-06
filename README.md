@@ -1,4 +1,4 @@
-# bakery_management
+# Bakery Management
 Django Backend that supports the use case of Bakery Management
 
 - Python Supported Version: 3.7.x
