@@ -14,12 +14,12 @@ Link: https://drf-yasg.readthedocs.io/en/stable/readme.html
                      Entities
     _____________________|__________________________
     |           |            |           |           |
-  User        Bakery      Product     Ingredient    ProductIngredient
+    User        Bakery      Product     Ingredient    ProductIngredient
         - owner fk(user)    - name      - name          - product fk(product)
         - name              - bakery    - bakery        - ingredient fk(ingredient)
         - address           - is_veg                    - quantity
                             - cost                      - percentage
-                            - selling_price             unique (prodoct, ingredient)
+                            - selling_price         unique (prodoct, ingredient)
                         unique(name, bakery)
 
 # Supported Features
